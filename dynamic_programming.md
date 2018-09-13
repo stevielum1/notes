@@ -120,3 +120,42 @@ def super_frog_hops(n, k)
   ways_collection
 end
 ```
+
+# Knapsack Problem
+Capacity = 6
+| Weight | Value | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+|--------|-------|---|---|---|---|---|---|---|
+| 1      | 1     | 0 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 2      | 3     | 0 | 1 | 3 | 4 | 4 | 4 | 4 | 
+| 4      | 6     | 0 | 1 | 3 | 4 | 6 | 7 | 9 |
+
+```ruby
+def knapsack(weights, values, capacity)
+  return 0 if capacity == 0 || weights.length == 0
+  solution_table = knapsack_table(weights, values, capacity)
+  solution_table[capacity][-1]
+end
+
+def knapsack_table(weights, values, capacity)
+  solution_table = []
+
+  (0..capacity).each do |i|
+    solution_table[i] = []
+
+    (0...weights.length).each do |j|
+      if i == 0
+        solution_table[i][j] = 0
+      elsif j == 0
+        solution_table[i][j] = i < weights[0] ? 0 : values[0]
+      else
+        option1 = solution_table[i][j - 1]
+        option2 = i < weights[j] ? 0 : solution_table[i - weights[j]][j-1] + values[j]
+        optimum = [option1, option2].max
+        solution_table[i][j] = optimum
+      end
+    end
+  end
+
+  solution_table
+end
+```
