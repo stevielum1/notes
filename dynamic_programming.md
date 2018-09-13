@@ -60,3 +60,33 @@ def frog_cache_builder(n)
   ways_collection
 end
 ```
+
+```ruby
+...
+@froggy_cache = [[[]], [[1]], [[1,1], [2]]]
+...
+
+def frog_hops_top_down(n)
+  frog_hops_top_down_helper(n)
+end
+
+def frog_hops_top_down_helper(n)
+  return @froggy_cache[n] if @froggy_cache[n]
+  
+  new_way_set = []
+
+  (1..3).each do |first_step|
+    frog_hops_top_down_helper(n-first_step).each do |way|
+      new_way = [first_step]
+
+      way.each do |step|
+        new_way << step
+      end
+
+      new_way_set << new_way
+    end
+  end
+
+  @froggy_cache[n] = new_way_set
+end
+```
