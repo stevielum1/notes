@@ -90,3 +90,33 @@ def frog_hops_top_down_helper(n)
   @froggy_cache[n] = new_way_set
 end
 ```
+
+# Super Frog Hops
+
+```ruby
+def super_frog_hops(n, k)
+  ways_collection = [[[]], [[1]]]
+  return ways_collection[n] if n < 2
+
+  (2..n).each do |i|
+    new_way_set = []
+
+    (1..k).each do |first_step|
+      break if i - first_step < 0
+      ways_collection[i - first_step].each do |way|
+        new_way = [first_step]
+
+        way.each do |step|
+          new_way << step
+        end
+
+        new_way_set << new_way
+      end
+    end
+
+    ways_collection << new_way_set
+  end
+
+  ways_collection
+end
+```
