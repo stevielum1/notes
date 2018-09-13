@@ -159,3 +159,54 @@ def knapsack_table(weights, values, capacity)
   solution_table
 end
 ```
+
+# Maze Solver
+```ruby
+def maze_solver(maze, start_pos, end_pos)
+  build_cache(start_pos)
+  solve_maze(maze, start_pos, end_pos)
+  trace_path(end_pos)
+end
+
+def build_cache(start_pos)
+  @maze_cache[start_pos] = nil
+end
+
+def solve_maze(maze, start_pos, end_pos)
+  return true if start_pos == end_pos
+
+  get_moves(maze, start_pos).each do |new_loc|
+    unless @maze_cache.key.include?(new_loc)
+      @maze_cache[new_loc] = start_pos
+      solve_maze(maze, new_loc, end_pos)
+    end
+  end
+end
+
+def trace_path(end_pos)
+  path = []
+  current = end_pos
+
+  until current.nil?
+    path.unshift(current)
+    current = @maze_cache[current]
+  end
+
+  path
+end
+
+def get_moves(maze, from_pos)
+  directions = [[0,1], [1,0], [-1,0], [0,-1]]
+  x, y = from_pos
+  result = []
+
+  directions.each do |dx, dy|
+    new_loc = [x + dx, y + dy]
+    result << new_loc if is_valid_pos?(maze, new_loc)
+  end
+end
+
+def is_valid_pos?(maze, pos)
+  
+end
+```
